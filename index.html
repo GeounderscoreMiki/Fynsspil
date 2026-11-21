@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hvilken fynsk kommune?</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="topbar" hidden>
+    <div>👤 <span id="player"></span></div>
+    <div>Liv: <span id="lives"></span></div>
+    <div>Rigtige: <span id="progress"></span></div>
+    <div>⏱ <span id="timer"></span></div>
+  </header>
+
+  <main>
+    <section id="screen-start" class="card">
+      <h1>Hvilken fynsk kommune?</h1>
+      <p>Fyn og de omkringliggende øer består af 10 kommuner. Din opgave er at finde ud af, hvilken kommune hver gruppe ledetråde peger på.</p>
+      <ul>
+        <li>Du får 5 ledetråde ad gangen, i tilfældig rækkefølge.</li>
+        <li>Klik på den cirkel på kortet, du tror er den rigtige kommune.</li>
+        <li>Du skal svare rigtigt 10 gange.</li>
+        <li>Du har <strong>3 liv</strong>. Et forkert svar koster et liv.</li>
+        <li>Du har <strong>2 minutter</strong> pr. spørgsmål. Løber tiden ud, koster det også et liv.</li>
+        <li>Mister du alle liv, må du begynde forfra.</li>
+        <li>Din samlede tid bruges på scoreboardet.</li>
+        <li>Klarer du alle 10, får du en koordinat til cachen!</li>
+      </ul>
+      <form id="start-form">
+        <label for="name">Vælg brugernavn til scoreboardet:</label>
+        <input id="name" maxlength="20" autocomplete="off" required>
+        <button type="submit">Start spillet</button>
+      </form>
+      <p><a href="#" id="to-scores-start">Se scoreboard</a></p>
+    </section>
+
+    <section id="screen-game" hidden>
+      <div class="card">
+        <h2>Hvilken kommune er det?</h2>
+        <ol id="clues"></ol>
+        <p id="feedback" role="status"></p>
+      </div>
+      <div id="map"></div>
+    </section>
+
+    <section id="screen-lost" class="card" hidden>
+      <h2>Du løb tør for liv 😢</h2>
+      <p>Prøv igen – spørgsmålene bliver blandet på ny.</p>
+      <button id="retry">Begynd forfra</button>
+    </section>
+
+    <section id="screen-won" class="card" hidden>
+      <h2>🎉 Tillykke!</h2>
+      <p>Du har fundet alle 10 kommuner på <strong id="won-time"></strong>.</p>
+      <p>Koordinaten til cachen er:</p>
+      <p id="final-coord"></p>
+      <button id="to-scores-won">Gå til scoreboard</button>
+    </section>
+
+    <section id="screen-scores" class="card" hidden>
+      <h2>Scoreboard</h2>
+      <table>
+        <thead><tr><th>#</th><th>Navn</th><th>Tid (min)</th></tr></thead>
+        <tbody id="score-body"></tbody>
+      </table>
+      <button id="back">Tilbage</button>
+    </section>
+  </main>
+
+  <footer id="stats"></footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
