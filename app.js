@@ -124,9 +124,22 @@ function styleCircles() {
 }
 
 // ---- Spil ----
-function nextQuestion() {
-  const open = groups.map((g, i) => i).filter((i) => game.answers[i] === undefined);
-  game.question = open[Math.floor(Math.random() * open.length)];
+// Vælger en ledetråd, helst en der ikke er vist før for den kommune.
+function pickClue(qi) {
+  const used = (game.seen[qi] ||= new Set());
+  const total = groups[qi].clues.length;
+  if (used.size >= total) used.clear();
+  const free = [...Array(total).keys()].filter((c) => !used.has(c));
+  game.clue = free[Math.floor(Math.random() * free.length)];
+  used.add(game.clue);
+}
+
+function nextQuestion(sameGroup) {
+  if (sameGroup === undefined) {
+    const open = groups.map((g, i) => i).filter((i) => game.answers[i] === undefined);
+    game.question = open[Math.floor(Math.random() * open.length)];
+  }
+  pickClue(game.question);
   game.deadline = Date.now() + questionSeconds * 1000;
 }
 
@@ -134,8 +147,7 @@ function renderGame(keepFeedback) {
   $('player').textContent = playerName;
   $('lives').textContent = '❤️'.repeat(game.lives) + '🖤'.repeat(maxLives - game.lives);
   $('progress').textContent = `${game.solved.size}/${groups.length}`;
-  $('clues').replaceChildren(...groups[game.question].clues.map((t) =>
-    Object.assign(document.createElement('li'), { textContent: t })));
+  $('clue').textContent = groups[game.question].clues[game.clue];
   if (!keepFeedback) setFeedback('Klik på den rigtige kommune på kortet.');
   show('game');
   styleCircles();
@@ -170,8 +182,9 @@ async function guess(id) {
     setFeedback('Rigtigt! Her er næste spørgsmål.', 'good');
   } else {
     if (loseLife()) return;
+    nextQuestion(true); // ny ledetråd til samme kommune
     renderGame(true);
-    setFeedback('Forkert – du mistede et liv. Prøv igen!', 'bad');
+    setFeedback('Forkert – du mistede et liv. Her er en ny ledetråd til samme kommune.', 'bad');
   }
 }
 
@@ -214,7 +227,7 @@ function start(name) {
   playerName = name.replace(/\s+/g, ' ').trim().slice(0, 20);
   if (!playerName) return;
   localStorage.setItem('fynName', playerName);
-  game = { lives: maxLives, solved: new Set(), answers: [], startedAt: Date.now(), over: false };
+  game = { lives: maxLives, solved: new Set(), answers: [], seen: [], startedAt: Date.now(), over: false };
   nextQuestion();
   renderGame();
   bump('attempts').then(loadStats);

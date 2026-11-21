@@ -20,10 +20,10 @@
       <h1>Hvilken fynsk kommune?</h1>
       <p>Fyn og de omkringliggende øer består af 10 kommuner. Din opgave er at finde ud af, hvilken kommune hver gruppe ledetråde peger på.</p>
       <ul>
-        <li>Du får 5 ledetråde ad gangen, i tilfældig rækkefølge.</li>
+        <li>Du får én ledetråd ad gangen om en tilfældig kommune.</li>
         <li>Klik på den cirkel på kortet, du tror er den rigtige kommune.</li>
         <li>Du skal svare rigtigt 10 gange.</li>
-        <li>Du har <strong>3 liv</strong>. Et forkert svar koster et liv.</li>
+        <li>Du har <strong>3 liv</strong>. Et forkert svar koster et liv, og du får en ny ledetråd til samme kommune.</li>
         <li>Du har <strong>2 minutter</strong> pr. spørgsmål. Løber tiden ud, koster det også et liv.</li>
         <li>Mister du alle liv, må du begynde forfra.</li>
         <li>Din samlede tid bruges på scoreboardet.</li>
@@ -39,8 +39,8 @@
 
     <section id="screen-game" hidden>
       <div class="card">
-        <h2>Hvilken kommune er det?</h2>
-        <ol id="clues"></ol>
+        <h2>Hvilken kommune passer på ledetråden?</h2>
+        <p id="clue" class="clue"></p>
         <p id="feedback" role="status"></p>
       </div>
       <div id="map"></div>
