@@ -21,7 +21,11 @@ let tick = null;
 function show(name) {
   screens.forEach((s) => ($('screen-' + s).hidden = s !== name));
   $('topbar').hidden = name !== 'game';
-  if (name === 'game') setTimeout(() => map.invalidateSize(), 50);
+  if (name === 'game') {
+    if (!map) initMap(); // kortet oprettes først, når det er synligt
+    map.invalidateSize();
+    setTimeout(() => map.invalidateSize(), 100);
+  }
 }
 
 function setFeedback(text, cls) {
@@ -91,9 +95,19 @@ async function openVault(answers) {
 // ---- Kort ----
 function initMap() {
   map = L.map('map').setView([55.25, 10.35], 9);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+  const primary = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
     maxZoom: 12, attribution: '© OpenStreetMap © CARTO',
   }).addTo(map);
+  // Reserve: satellitkort uden navne, hvis det primære kort ikke kan hentes
+  let switched = false;
+  primary.on('tileerror', () => {
+    if (switched) return;
+    switched = true;
+    map.removeLayer(primary);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 12, attribution: 'Esri, Maxar, Earthstar Geographics',
+    }).addTo(map);
+  });
   municipalities.forEach((m) => {
     const c = L.circle([m.lat, m.lng], { radius: 6000, weight: 3 }).addTo(map);
     c.on('click', () => guess(m.id));
@@ -123,8 +137,8 @@ function renderGame(keepFeedback) {
   $('clues').replaceChildren(...groups[game.question].clues.map((t) =>
     Object.assign(document.createElement('li'), { textContent: t })));
   if (!keepFeedback) setFeedback('Klik på den rigtige kommune på kortet.');
-  styleCircles();
   show('game');
+  styleCircles();
   startTimer();
 }
 
@@ -215,7 +229,6 @@ $('back').addEventListener('click', () => {
   else show('start');
 });
 
-initMap();
 $('name').value = playerName;
 loadStats();
 show('start');
