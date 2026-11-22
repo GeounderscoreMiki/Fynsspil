@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hvilken fynsk kommune?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,25 +17,41 @@
   </header>
 
   <main>
-    <section id="screen-start" class="card">
-      <h1>Hvilken fynsk kommune?</h1>
-      <p>Fyn og de omkringliggende øer består af 10 kommuner. Din opgave er at finde ud af, hvilken kommune hver gruppe ledetråde peger på.</p>
-      <ul>
-        <li>Du får én ledetråd ad gangen om en tilfældig kommune.</li>
-        <li>Klik på den cirkel på kortet, du tror er den rigtige kommune.</li>
-        <li>Du skal svare rigtigt 10 gange.</li>
-        <li>Du har <strong>3 liv</strong>. Et forkert svar koster et liv, og du får en ny ledetråd til samme kommune.</li>
-        <li>Du har <strong>2 minutter</strong> pr. spørgsmål. Løber tiden ud, koster det også et liv.</li>
-        <li>Mister du alle liv, må du begynde forfra.</li>
-        <li>Din samlede tid bruges på scoreboardet.</li>
-        <li>Klarer du alle 10, får du en koordinat til cachen!</li>
-      </ul>
-      <form id="start-form">
-        <label for="name">Vælg brugernavn til scoreboardet:</label>
-        <input id="name" maxlength="20" autocomplete="off" required>
-        <button type="submit">Start spillet</button>
-      </form>
-      <p><a href="#" id="to-scores-start">Se scoreboard</a></p>
+    <section id="screen-start">
+      <div class="hero">
+        <svg class="emblem" viewBox="0 0 120 120" role="img" aria-label="Geocaching-emblem">
+          <circle cx="60" cy="60" r="56" fill="#fff" stroke="#8bc34a" stroke-width="6"/>
+          <circle cx="60" cy="60" r="46" fill="#1b5e3b"/>
+          <path d="M60 18c-14 0-25 11-25 25 0 19 25 45 25 45s25-26 25-45c0-14-11-25-25-25z" fill="#fff"/>
+          <rect x="47" y="34" width="26" height="18" rx="2" fill="#1b5e3b"/>
+          <rect x="47" y="34" width="26" height="6" fill="#8bc34a"/>
+          <rect x="57" y="39" width="6" height="5" fill="#fff"/>
+          <path d="M20 94l12-6M100 94l-12-6" stroke="#8bc34a" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <p class="kicker">Geocaching-opgave</p>
+        <h1>Hvilken fynsk kommune?</h1>
+        <p class="tagline">Løs gåden. Find kommunerne. Få koordinaten til skatten. 🧭</p>
+      </div>
+
+      <div class="card">
+        <h2>Sådan spiller du</h2>
+        <ul class="rules">
+          <li><span>🔎</span>Du får <strong>én ledetråd</strong> ad gangen om en tilfældig kommune.</li>
+          <li><span>📍</span>Klik på den cirkel på kortet, du tror er den rigtige kommune.</li>
+          <li><span>🎯</span>Du skal svare rigtigt <strong>10 gange</strong>.</li>
+          <li><span>❤️</span>Du har <strong>3 liv</strong>. Et forkert svar koster et liv, og du får en ny ledetråd til samme kommune.</li>
+          <li><span>⏱️</span>Du har <strong>2 minutter</strong> pr. spørgsmål. Løber tiden ud, koster det også et liv.</li>
+          <li><span>🔁</span>Mister du alle liv, må du begynde forfra.</li>
+          <li><span>🏆</span>Din samlede tid bruges på scoreboardet.</li>
+          <li><span>🧰</span>Klarer du alle 10, får du <strong>koordinaten til cachen</strong>!</li>
+        </ul>
+        <form id="start-form">
+          <label for="name">Vælg brugernavn til scoreboardet:</label>
+          <input id="name" maxlength="20" autocomplete="off" placeholder="Dit geocaching-navn" required>
+          <button type="submit">Start spillet</button>
+        </form>
+        <p><a href="#" id="to-scores-start">🏆 Se scoreboard</a></p>
+      </div>
     </section>
 
     <section id="screen-game" hidden>
@@ -42,7 +60,10 @@
         <p id="clue" class="clue"></p>
         <p id="feedback" role="status"></p>
       </div>
-      <svg id="map" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kort over Fyn"></svg>
+      <div class="mapwrap">
+        <svg id="map" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kort over Fyn"></svg>
+        <div class="watermark" aria-hidden="true"><span>Made by</span><span>Geo_Miki</span></div>
+      </div>
     </section>
 
     <section id="screen-lost" class="card" hidden>
