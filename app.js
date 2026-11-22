@@ -62,7 +62,8 @@ async function showScores() {
     snap.docs.forEach((d, i) => {
       const r = d.data();
       const tr = document.createElement('tr');
-      [i + 1, r.name, (r.seconds / 60).toFixed(2).replace('.', ','), r.lives == null ? '–' : `❤️ ${r.lives}`].forEach((v) => {
+      [i + 1, r.name, (r.seconds / 60).toFixed(2).replace('.', ','), r.lives == null ? '–' : `❤️ ${r.lives}`,
+        r.createdAt?.toDate ? r.createdAt.toDate().toLocaleString('da-DK', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '–'].forEach((v) => {
         tr.appendChild(Object.assign(document.createElement('td'), { textContent: v }));
       });
       body.appendChild(tr);
