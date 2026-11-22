@@ -62,7 +62,7 @@ async function showScores() {
     snap.docs.forEach((d, i) => {
       const r = d.data();
       const tr = document.createElement('tr');
-      [i + 1, r.name, (r.seconds / 60).toFixed(2).replace('.', ',')].forEach((v) => {
+      [i + 1, r.name, (r.seconds / 60).toFixed(2).replace('.', ','), r.lives == null ? '–' : `❤️ ${r.lives}`].forEach((v) => {
         tr.appendChild(Object.assign(document.createElement('td'), { textContent: v }));
       });
       body.appendChild(tr);
@@ -217,7 +217,7 @@ async function win() {
   show('won');
   bump('completed');
   if (db) {
-    try { await addDoc(collection(db, 'scores'), { name: playerName, seconds, createdAt: serverTimestamp() }); } catch (e) { console.warn(e); }
+    try { await addDoc(collection(db, 'scores'), { name: playerName, seconds, lives: game.lives, createdAt: serverTimestamp() }); } catch (e) { console.warn(e); }
   }
   loadStats();
 }
