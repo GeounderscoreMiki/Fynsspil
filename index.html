@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hvilken fynsk kommune?</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -43,7 +42,7 @@
         <p id="clue" class="clue"></p>
         <p id="feedback" role="status"></p>
       </div>
-      <div id="map"></div>
+      <svg id="map" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kort over Fyn"></svg>
     </section>
 
     <section id="screen-lost" class="card" hidden>
@@ -72,7 +71,6 @@
 
   <footer id="stats"></footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

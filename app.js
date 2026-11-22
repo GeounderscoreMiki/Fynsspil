@@ -1,4 +1,5 @@
 import { municipalities } from './municipalities.js';
+import { mapView, mapPaths } from './mapdata.js';
 import { groups, vault, salt, iterations } from './gamedata.js';
 import { firebaseConfig, questionSeconds, maxLives } from './config.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
@@ -22,9 +23,7 @@ function show(name) {
   screens.forEach((s) => ($('screen-' + s).hidden = s !== name));
   $('topbar').hidden = name !== 'game';
   if (name === 'game') {
-    if (!map) initMap(); // kortet oprettes først, når det er synligt
-    map.invalidateSize();
-    setTimeout(() => map.invalidateSize(), 100);
+    if (!map) initMap();
   }
 }
 
@@ -92,34 +91,32 @@ async function openVault(answers) {
   return new TextDecoder().decode(plain);
 }
 
-// ---- Kort ----
+// ---- Kort (indbygget SVG, ingen eksterne korttjenester) ----
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (name, attrs) => {
+  const el = document.createElementNS(NS, name);
+  Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+  return el;
+};
+
 function initMap() {
-  map = L.map('map').setView([55.25, 10.35], 9);
-  const primary = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-    maxZoom: 12, attribution: '© OpenStreetMap © CARTO',
-  }).addTo(map);
-  // Reserve: satellitkort uden navne, hvis det primære kort ikke kan hentes
-  let switched = false;
-  primary.on('tileerror', () => {
-    if (switched) return;
-    switched = true;
-    map.removeLayer(primary);
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 12, attribution: 'Esri, Maxar, Earthstar Geographics',
-    }).addTo(map);
-  });
+  map = $('map');
+  map.setAttribute('viewBox', `0 0 ${mapView.width} ${mapView.height}`);
+  mapPaths.forEach((d) => map.appendChild(svgEl('path', { d, class: 'land', 'fill-rule': 'evenodd' })));
+  const radius = (6.5 / 111) * mapView.scale;
   municipalities.forEach((m) => {
-    const c = L.circle([m.lat, m.lng], { radius: 6000, weight: 3 }).addTo(map);
-    c.on('click', () => guess(m.id));
+    const x = (m.lng - mapView.lng0) * mapView.cos * mapView.scale;
+    const y = (mapView.lat1 - m.lat) * mapView.scale;
+    const c = svgEl('circle', { cx: x, cy: y, r: radius, class: 'town' });
+    c.addEventListener('click', () => guess(m.id));
+    map.appendChild(c);
     circles[m.id] = c;
   });
 }
 
 function styleCircles() {
   Object.entries(circles).forEach(([id, c]) => {
-    c.setStyle(game.solved.has(id)
-      ? { color: '#888', fillColor: '#888', fillOpacity: 0.5 }
-      : { color: '#1b5e3b', fillColor: '#1b5e3b', fillOpacity: 0.25 });
+    c.classList.toggle('done', game.solved.has(id));
   });
 }
 
