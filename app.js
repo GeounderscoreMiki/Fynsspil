@@ -144,7 +144,7 @@ function nextQuestion(sameGroup) {
 
 function renderGame(keepFeedback) {
   $('player').textContent = playerName;
-  $('lives').textContent = '❤️'.repeat(game.lives) + '🖤'.repeat(maxLives - game.lives);
+  $('lives').textContent = `❤️ ${game.lives}/${maxLives}`;
   $('progress').textContent = `${game.solved.size}/${groups.length}`;
   $('clue').textContent = groups[game.question].clues[game.clue];
   if (!keepFeedback) setFeedback('Klik på den rigtige kommune på kortet.');

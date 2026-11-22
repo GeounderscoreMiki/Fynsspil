@@ -7,4 +7,4 @@ export const firebaseConfig = {
 };
 
 export const questionSeconds = 120;
-export const maxLives = 3;
+export const maxLives = 10;

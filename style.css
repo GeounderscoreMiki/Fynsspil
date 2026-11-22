@@ -25,7 +25,7 @@ footer { text-align: center; padding: 14px; color: #444; }
   background: radial-gradient(circle at 20% 0, #2e8b57, transparent 55%), linear-gradient(160deg, #0f3d26, #1b5e3b 60%, #2f7a45);
   box-shadow: 0 3px 10px rgba(0,0,0,.25); }
 .hero h1 { margin: 6px 0; font-size: clamp(1.7rem, 7vw, 2.6rem); }
-.emblem { width: 96px; height: 96px; filter: drop-shadow(0 3px 4px rgba(0,0,0,.35)); }
+.emblem { width: 100px; height: 104px; filter: drop-shadow(0 3px 4px rgba(0,0,0,.35)); }
 .kicker { margin: 4px 0 0; text-transform: uppercase; letter-spacing: .2em; font-size: .8rem; color: #b6e08a; font-weight: 700; }
 .tagline { margin: 0; opacity: .9; }
 .rules { list-style: none; padding: 0; }
