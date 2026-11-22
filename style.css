@@ -8,10 +8,10 @@ input, button { font-size: 1rem; padding: 10px 14px; border-radius: 6px; border:
 button { background: #1b5e3b; color: #fff; border: 0; cursor: pointer; }
 form { display: flex; flex-direction: column; gap: 8px; max-width: 320px; }
 #map { display: block; width: 100%; max-height: 80vh; background: #cfe6f3; border-radius: 10px; touch-action: manipulation; }
-.land { fill: #e8e3c8; stroke: #b9b38f; stroke-width: 1; }
-.town { fill: rgba(27,94,59,.3); stroke: #1b5e3b; stroke-width: 4; cursor: pointer; }
-.town:hover { fill: rgba(27,94,59,.5); }
-.town.done { fill: rgba(120,120,120,.55); stroke: #666; cursor: default; }
+.land { fill-opacity: .35; stroke-width: 3; stroke-linejoin: round; }
+.town { fill: rgba(255,255,255,.35); stroke: #222; stroke-width: 4; cursor: pointer; }
+.town:hover { fill: rgba(255,255,255,.6); }
+.town.done { fill: rgba(60,60,60,.6); stroke: #555; cursor: default; }
 #feedback { min-height: 1.4em; font-weight: 600; }
 #feedback.bad { color: #b00020; }
 #feedback.good { color: #1b7a3b; }

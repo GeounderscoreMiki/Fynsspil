@@ -1,5 +1,5 @@
 import { municipalities } from './municipalities.js';
-import { mapView, mapPaths } from './mapdata.js';
+import { mapView, mapRegions } from './mapdata.js';
 import { groups, vault, salt, iterations } from './gamedata.js';
 import { firebaseConfig, questionSeconds, maxLives } from './config.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
@@ -102,7 +102,9 @@ const svgEl = (name, attrs) => {
 function initMap() {
   map = $('map');
   map.setAttribute('viewBox', `0 0 ${mapView.width} ${mapView.height}`);
-  mapPaths.forEach((d) => map.appendChild(svgEl('path', { d, class: 'land', 'fill-rule': 'evenodd' })));
+  mapRegions.forEach(({ d, c }) => map.appendChild(svgEl('path', {
+    d, class: 'land', 'fill-rule': 'evenodd', fill: c, stroke: c,
+  })));
   const radius = (6.5 / 111) * mapView.scale;
   municipalities.forEach((m) => {
     const x = (m.lng - mapView.lng0) * mapView.cos * mapView.scale;
