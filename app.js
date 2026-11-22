@@ -153,6 +153,7 @@ function renderGame(keepFeedback) {
   startTimer();
 }
 
+// Et liv mistes, og man starter forfra på alle kommuner (tiden løber videre).
 function loseLife() {
   game.lives--;
   if (game.lives <= 0) {
@@ -161,6 +162,8 @@ function loseLife() {
     show('lost');
     return true;
   }
+  game.solved = new Set();
+  game.answers = [];
   return false;
 }
 
@@ -181,9 +184,9 @@ async function guess(id) {
     setFeedback('Rigtigt! Her er næste spørgsmål.', 'good');
   } else {
     if (loseLife()) return;
-    nextQuestion(true); // ny ledetråd til samme kommune
+    nextQuestion();
     renderGame(true);
-    setFeedback('Forkert – du mistede et liv. Her er en ny ledetråd til samme kommune.', 'bad');
+    setFeedback('Forkert – du mistede et liv og starter forfra. Tiden løber videre.', 'bad');
   }
 }
 
@@ -197,9 +200,9 @@ function startTimer() {
     if (left <= 0) {
       stopTimer();
       if (loseLife()) return;
-      nextQuestion(); // spørgsmålet kommer tilbage i puljen
+      nextQuestion();
       renderGame(true);
-      setFeedback('Tiden løb ud – du mistede et liv.', 'bad');
+      setFeedback('Tiden løb ud – du mistede et liv og starter forfra. Tiden løber videre.', 'bad');
     }
   };
   update();

@@ -6,5 +6,5 @@ export const firebaseConfig = {
   appId: '1:1021548556343:web:adc5b099009d10b5278fb2',
 };
 
-export const questionSeconds = 120;
-export const maxLives = 6;
+export const questionSeconds = 90;
+export const maxLives = 10;
